@@ -2,7 +2,7 @@
 
 ## Define and handle routes
 ```javascript
-<script src="__hash-router.js__"></script>
+<script src="hash-router.js"></script>
 <script>
     var routes = {
         '/': function() {
@@ -29,7 +29,7 @@
 If you want to cache data to avoid external requests you can use the cache manager.
 ```javascript
 <script src="hash-router.js"></script>
-<script src="__cache-manager.js__"></script>
+<script src="cache-manager.js"></script>
 <script>
     var cacheManager = new CacheManager;
     var routes = {
