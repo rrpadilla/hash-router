@@ -1,0 +1,28 @@
+# Simple Hash Router
+
+## How to use
+<script src="hash-router.js"></script>
+
+## Define and handle routes
+```javascript
+<script>
+    var routes = {
+        '/': function() {
+            console.log('callback for "/"');
+        },
+        '/hello': function() {
+            console.log('callback for /hello');
+        },
+        '/user/:id': function(params) {
+            console.log('Route with params. Callback for /user/:id', params, params.id);
+        },
+        '*': function() {
+            console.log('Match all routes. Example: 404');
+            // Redirect to '/' all routes.
+            router.navigate('/');
+        },
+    };
+
+    var router = new HashRouter(routes);
+</script>
+```
