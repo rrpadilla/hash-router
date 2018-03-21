@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Test Simple Hash Router</title>
+        <style>
+            #wrapper {
+                padding: 10px;
+            }
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            li {
+                display: inline;
+            }
+            li a {
+                padding: 5px 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Examples:</h1>
+        <p>Simple Hash Router + Cached Data</p>
+        <ul>
+            <li><a href="#/">Home</a></li>
+            <li><a href="#/hello">Hello</a></li>
+            <li><a href="#/your-ip">Your IP</a></li>
+            <li><a href="#/404">404</a></li>
+        </ul>
+        <div id="wrapper" style="margin: 5px;"></div>
+        <script src="hash-router.js"></script>
+        <script>
+            class CacheData {
+                constructor() {
+                    this.cache = {};
+                }
+                has(field) {
+                    return this.cache.hasOwnProperty(field);
+                }
+                set(field, value) {
+                    this.cache[field] = value;
+
+                    return this.cache;
+                }
+                get(field) {
+                    if (this.cache[field]) {
+                        return this.cache[field];
+                    }
+
+                    return false;
+                }
+                clear(field) {
+                    if (field) {
+                        delete this.cache[field];
+                    }
+                }
+            }
+            var cachedData = new CacheData;
+            var routes = {
+                '/': function() {
+                    console.log('callback for "/"');
+                    document.getElementById('wrapper').textContent = 'DEFAULT-HOME!';
+                },
+                '/hello': function() {
+                    console.log('callback for /hello');
+                    document.getElementById('wrapper').textContent = 'HELLO!';
+                },
+                '/user/:id': function(params) {
+                    console.log('Route with params. Callback for /user/:id', params, params.id);
+                },
+                '/your-ip': function() {
+                    console.log('callback for /your-ip');
+                    var data = cachedData.get('your-ip');
+                    if (!data) {
+                        fetch('https://api.ipify.org?format=json')
+                            .then(function(response) { return response.json(); })
+                            .then(function(json) {
+                                cachedData.set('your-ip', json);
+                                document.getElementById('wrapper').textContent = 'IP: ' + json.ip;
+                            });
+                    } else {
+                        console.log('serving from cache');
+                        document.getElementById('wrapper').textContent = 'IP: ' + data.ip + ' (CACHED DATA)';
+                    }
+                },
+                '*': function() {
+                    console.log('Match all routes. Example: 404');
+                    // Redirect to '/' all routes.
+                    router.navigate('/');
+                }
+            };
+            var router = new HashRouter(routes);
+        </script>
+    </body>
+</html>

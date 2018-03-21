@@ -1,4 +1,4 @@
-function HashRouter(routes, autoResolve) {
+function HashRouter(routes, autoResolve = true) {
     autoResolve = typeof autoResolve === 'undefined' ? false : autoResolve;
     this.routes = [];
     if (typeof routes === 'object') {
