@@ -25,7 +25,7 @@
 </script>
 ```
 
-## Cache Manager
+## Cache Manager (Optional)
 If you want to cache data to avoid external requests you can use the cache manager.
 ```javascript
 <script src="hash-router.js"></script>
