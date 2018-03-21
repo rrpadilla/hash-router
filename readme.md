@@ -2,7 +2,7 @@
 
 ## Define and handle routes
 ```javascript
-<script src="hash-router.js"></script>
+<script src="__hash-router.js__"></script>
 <script>
     var routes = {
         '/': function() {
@@ -23,8 +23,4 @@
 
     var router = new HashRouter(routes);
 </script>
-```
-### Adding routes ussing add method. Should call resolve() after that.
-```javascript
-    var router = new HashRouter(routes);
 ```
