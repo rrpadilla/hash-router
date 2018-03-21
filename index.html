@@ -31,33 +31,9 @@
         </ul>
         <div id="wrapper" style="margin: 5px;"></div>
         <script src="hash-router.js"></script>
+        <script src="cache-manager.js"></script>
         <script>
-            class CacheData {
-                constructor() {
-                    this.cache = {};
-                }
-                has(field) {
-                    return this.cache.hasOwnProperty(field);
-                }
-                set(field, value) {
-                    this.cache[field] = value;
-
-                    return this.cache;
-                }
-                get(field) {
-                    if (this.cache[field]) {
-                        return this.cache[field];
-                    }
-
-                    return false;
-                }
-                clear(field) {
-                    if (field) {
-                        delete this.cache[field];
-                    }
-                }
-            }
-            var cachedData = new CacheData;
+            var cacheManager = new CacheManager;
             var routes = {
                 '/': function() {
                     console.log('callback for "/"');
@@ -72,17 +48,17 @@
                 },
                 '/your-ip': function() {
                     console.log('callback for /your-ip');
-                    var data = cachedData.get('your-ip');
+                    var data = cacheManager.get('your-ip');
                     if (!data) {
                         fetch('https://api.ipify.org?format=json')
                             .then(function(response) { return response.json(); })
                             .then(function(json) {
-                                cachedData.set('your-ip', json);
+                                cacheManager.set('your-ip', json);
                                 document.getElementById('wrapper').textContent = 'IP: ' + json.ip;
                             });
                     } else {
                         console.log('serving from cache');
-                        document.getElementById('wrapper').textContent = 'IP: ' + data.ip + ' (CACHED DATA)';
+                        document.getElementById('wrapper').textContent = 'IP: ' + data.ip + ' (DATA FROM CACHE)';
                     }
                 },
                 '*': function() {

@@ -24,3 +24,34 @@
     var router = new HashRouter(routes);
 </script>
 ```
+
+## Cache Manager
+If you want to cache data to avoid external requests you can use the cache manager.
+```javascript
+<script src="hash-router.js"></script>
+<script src="__cache-manager.js__"></script>
+<script>
+    var cacheManager = new CacheManager;
+    var routes = {
+        //...
+        '/your-ip': function() {
+            console.log('callback for /your-ip');
+            var data = cacheManager.get('your-ip');
+            if (!data) {
+                fetch('https://api.ipify.org?format=json')
+                    .then(function(response) { return response.json(); })
+                    .then(function(json) {
+                        cacheManager.set('your-ip', json);
+                        document.getElementById('wrapper').textContent = 'IP: ' + json.ip;
+                    });
+            } else {
+                console.log('serving from cache');
+                document.getElementById('wrapper').textContent = 'IP: ' + data.ip + ' (CACHED DATA)';
+            }
+        },
+        //...
+    };
+
+    var router = new HashRouter(routes);
+</script>
+```
