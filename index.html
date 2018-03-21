@@ -22,7 +22,7 @@
     </head>
     <body>
         <h1>Examples:</h1>
-        <p>Simple Hash Router + Cached Data</p>
+        <p>Simple Hash Router + Cache Manager</p>
         <ul>
             <li><a href="#/">Home</a></li>
             <li><a href="#/hello">Hello</a></li>
@@ -58,7 +58,7 @@
                             });
                     } else {
                         console.log('serving from cache');
-                        document.getElementById('wrapper').textContent = 'IP: ' + data.ip + ' (DATA FROM CACHE)';
+                        document.getElementById('wrapper').textContent = 'IP: ' + data.ip + ' (DATA FROM CACHE MANAGER)';
                     }
                 },
                 '*': function() {
