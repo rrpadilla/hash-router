@@ -37,15 +37,15 @@ HashRouter.prototype = {
         if (!match || paramNames.length === 0) return null;
         return match
             .slice(1, match.length)
-            .reduce((params, value, index) => {
-                if (params === null) params = {};
+            .reduce(function(params, value, index) {
+                params = params || {};
                 params[paramNames[index]] = decodeURIComponent(value);
                 return params;
             }, null);
     },
     check: function(url) {
         var i, match, route, paramNames = [], params = [], regexp;
-        var url = url || window.location.hash;
+        url = url || window.location.hash;
         for (i = 0; i < this.routes.length; i++) {
             route = this.routes[i].route;
             if (this.matchAnyRoute(route) || this.matchRootRoute(url, route)) {
@@ -59,8 +59,7 @@ HashRouter.prototype = {
                 route.replace(/([:*])(\w+)/g, function (full, dots, name) {
                     paramNames.push(name);
                     return '([^\/]+)';
-                })
-                .replace(/\*/g, '(?:.*)') + '(?:\/$|$)', '');
+                }).replace(/\*/g, '(?:.*)') + '(?:\/$|$)', '');
             match = url.replace(/^\/+/, '/').match(regexp);
             if (match) {
                 params = this.extractParamsFromMatch(match, paramNames);
@@ -73,9 +72,7 @@ HashRouter.prototype = {
         return this;
     },
     resolve: function() {
-        var variableNames = [];
-        var url = window.location.hash;
-        this.check(url);
+        this.check(window.location.hash);
     },
     hashChanged: function(ev) {
         if (window.location.hash.length > 0) {
@@ -86,4 +83,4 @@ HashRouter.prototype = {
         window.location.hash = path;
         return this;
     }
-}
+};
