@@ -14,9 +14,9 @@
         '/user/:id': function(params) {
             console.log('Route with params. Callback for /user/:id', params, params.id);
         },
-        '*': function() {
+        '*': function(params, router) {
             console.log('Match all routes. Example: 404');
-            // Redirect to '/' all routes.
+            // Redirect to '/' all 404 routes.
             router.navigate('/');
         }
     };
@@ -33,9 +33,7 @@ If you want to cache data to avoid external requests you can use the cache manag
 <script>
     var cacheManager = new CacheManager;
     var routes = {
-        '/': function() {
-            console.log('callback for "/"');
-        },
+        // ...
         '/your-ip': function() {
             console.log('callback for /your-ip');
             var data = cacheManager.get('your-ip');
@@ -51,11 +49,7 @@ If you want to cache data to avoid external requests you can use the cache manag
                 document.getElementById('wrapper').textContent = 'IP: ' + data.ip + ' (CACHED DATA)';
             }
         },
-        '*': function(params, router) {
-            console.log('Match all routes. Example: 404');
-            // Redirect to '/' all 404 routes.
-            router.navigate('/');
-        }
+        // ...
     };
 
     var router = new HashRouter(routes);
