@@ -26,6 +26,7 @@
         <ul>
             <li><a href="#/">Home</a></li>
             <li><a href="#/hello">Hello</a></li>
+            <li><a href="#/user/my-id">User</a></li>
             <li><a href="#/your-ip">Your IP</a></li>
             <li><a href="#/404">404</a></li>
         </ul>
@@ -43,8 +44,8 @@
                     console.log('callback for /hello');
                     document.getElementById('wrapper').textContent = 'HELLO!';
                 },
-                '/user/:id': function(params) {
-                    console.log('Route with params. Callback for /user/:id', params, params.id);
+                '/user/:id': function(params, router) {
+                    console.log('Route with params. Callback for /user/:id', params, params.id, r);
                 },
                 '/your-ip': function() {
                     console.log('callback for /your-ip');
@@ -61,7 +62,7 @@
                         document.getElementById('wrapper').textContent = 'IP: ' + data.ip + ' (DATA FROM CACHE MANAGER)';
                     }
                 },
-                '*': function() {
+                '*': function(params, router) {
                     console.log('Match all routes. Example: 404');
                     // Redirect to '/' all routes.
                     router.navigate('/');
