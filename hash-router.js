@@ -57,6 +57,7 @@ var HashRouterLib = function(w, isModule) {
                 if (this.isRootRoute(route)) {
                     continue;
                 }
+                paramNames = [];
                 regexp = new RegExp(
                     route.replace(/([:*])(\w+)/g, function (full, dots, name) {
                         paramNames.push(name);
